@@ -6,7 +6,7 @@ export default function App() {
   return (
     <SafeAreaView style={styles.container}>
       <TestScreen />
-      <Text className="bg-yellow-400 text- p-4 rounded-md">Karim</Text>
+      <Text className="bg-yellow-500 text- p-4 rounded-md">Karim</Text>
       <StatusBar style="auto" />
     </SafeAreaView>
   );
