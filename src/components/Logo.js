@@ -63,7 +63,7 @@ const styles = StyleSheet.create({
         width: wp(22),
         paddingHorizontal: 1,
         fontSize: wp(11),
-        color: 'white',
+        color: '#f9cc00',
         textShadowColor: 'black',
         textShadowOffset: { width: -1, height: 1 },
         textShadowRadius: 3,

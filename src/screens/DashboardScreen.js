@@ -8,10 +8,17 @@ import FeaturesView from '../components/FeaturesView.js';
 
 const DashboardScreen = ({ navigation }) => {
     return (
-        <SafeAreaView style={styles.container}>
+        <LinearGradient 
+        style={styles.container}    
+        colors={['#000000','#000']} // Blue to Pink to Violet
+        start={{ x: 0, y:1  }} end={{ x: 0, y: 0 }}
+     >
+        <SafeAreaView style={styles.container}>  
             <Logo />
-            <FeaturesView />
+            <FeaturesView navigation={navigation} />
+            
         </SafeAreaView>
+        </LinearGradient>
     );
 };
 
@@ -22,7 +29,8 @@ const styles = StyleSheet.create({
         justifyContent: 'flex-start',
         alignItems: 'center',
         padding: wp(4),
-        backgroundColor: '#f9cc00',
+        backgroundColor: 'transparent',
+       
     },
     FeatureCard: {
         flexDirection: 'row',

@@ -5,10 +5,10 @@ import DashboardScreen from './src/screens/DashboardScreen.js';
 
 export default function App() {
   return (
-    <SafeAreaView style={styles.container}>
-      <DashboardScreen navigation={AppNavigator} />
-      <StatusBar style="auto" />
-    </SafeAreaView>
+    
+      <AppNavigator />
+      
+    
   );
 }
 
