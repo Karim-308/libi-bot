@@ -12,19 +12,35 @@
       "backgroundColor": "#ffffff"
     },
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.anonymous.SpeechToTextApp",
+      "infoPlist": {
+        "NSSpeechRecognitionUsageDescription": "This app uses speech recognition to convert your speech to text.",
+        "NSMicrophoneUsageDescription": "This app requires access to the microphone for voice recognition.",
+        "NSCameraUsageDescription": "This app uses the camera to let the user add a profile photo."
+      }
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "permissions": ["android.permission.RECORD_AUDIO"],
+      "package": "com.anonymous.SpeechToTextApp"
     },
     "web": {
       "favicon": "./assets/favicon.png"
     },
     "plugins": [
-      "expo-font"
+      "expo-font",
+      [
+        "@wdragon/react-native-voice",
+        {
+          "android": {
+            "package": "com.anonymous.SpeechToTextApp"
+          }
+        }
+      ]
     ]
   }
 }
