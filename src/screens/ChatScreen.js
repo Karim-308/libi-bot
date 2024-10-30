@@ -17,6 +17,7 @@ const ChatScreen = ({ route }) => {
 
   const loadConversationHistory = async () => {
     const history = await loadConversations(BotName);
+    console.log("Loaded conversation history:", history);
     setConversations(history);
     if (history.length > 0) {
       setMessages(history[history.length - 1].conversation);
@@ -49,7 +50,7 @@ const ChatScreen = ({ route }) => {
   const startNewChat = () => {
     console.log("lets start a new chat");
     if (messages.length > 0){
-    saveConversation(messages[1].content, messages);}
+    saveConversation(messages[0].content, messages);}
     setMessages([]);
   };
 
@@ -71,6 +72,11 @@ const ChatScreen = ({ route }) => {
     drawerRef.current.closeDrawer();
   };
 
+  const handleDeleteAllConversations = async () => {
+    await deleteAllConversations();
+    setConversations([]); // Clear the state to remove items from the FlatList
+  };
+
   useEffect(() => {
     if (flatListRef.current) {
       flatListRef.current.scrollToEnd({ animated: true });
@@ -83,7 +89,8 @@ const ChatScreen = ({ route }) => {
 
   useEffect(() => {
     if (messages.length > 0 && messages[messages.length - 1].role === 'bot') {
-      saveConversation(messages[1].content, messages);
+      console.log("Saving conversation:", messages);
+      saveConversation(messages[0].content, messages);
     }
   }, [messages]);
 
@@ -97,7 +104,7 @@ const ChatScreen = ({ route }) => {
           <View style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "center" }}>
             <Text style={styles.drawerHeader}>Conversation History</Text>
             <TouchableOpacity
-              onPress={deleteAllConversations}
+              onPress={handleDeleteAllConversations}
               style={styles.backButton}
             >
               <FontAwesome name="trash" size={18} color="black" />
