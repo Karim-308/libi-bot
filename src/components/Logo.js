@@ -63,10 +63,10 @@ const styles = StyleSheet.create({
         width: wp(22),
         paddingHorizontal: 1,
         fontSize: wp(11),
-        color: '#f9cc00',
+        color: '#ffffff',
         textShadowColor: 'black',
         textShadowOffset: { width: -1, height: 1 },
-        textShadowRadius: 3,
+        textShadowRadius: 5,
     },
     OuterLogoContainer: {
         justifyContent: 'center',

@@ -5,31 +5,36 @@ import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-nat
 import Logo from '../components/Logo.js';
 import { LinearGradient } from 'expo-linear-gradient';
 import FeaturesView from '../components/FeaturesView.js';
+import { StatusBar } from 'expo-status-bar';
 
 const DashboardScreen = ({ navigation }) => {
     return (
-        <LinearGradient 
-        style={styles.container}    
-        colors={['#000000','#000']} // Blue to Pink to Violet
-        start={{ x: 0, y:1  }} end={{ x: 0, y: 0 }}
-     >
-        <SafeAreaView style={styles.container}>  
+        <SafeAreaView style={styles.contentContainer}>
+        <StatusBar style='dark'/>  
+        <LinearGradient
+            colors={['#f4cc00' , '#f4cc00']}
+            start={{ x: 0, y:1  }} end={{ x: 0, y: 0 }}
+            style={styles.container}>
             <Logo />
             <FeaturesView navigation={navigation} />
-            
+            </LinearGradient>
         </SafeAreaView>
-        </LinearGradient>
+        
     );
 };
 
 const styles = StyleSheet.create({
+    contentContainer: {
+        flex: 1,
+        width: '100%',
+    },
     container: {
         flex: 1,
         width: '100%',
         justifyContent: 'flex-start',
         alignItems: 'center',
-        padding: wp(4),
-        backgroundColor: 'transparent',
+        paddingHorizontal: wp(4),
+        backgroundColor: '#000000',
        
     },
     FeatureCard: {

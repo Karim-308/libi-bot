@@ -1,15 +1,27 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { View, Text, TextInput, TouchableOpacity, FlatList, StyleSheet, Image } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, FlatList, StyleSheet, Image, DrawerLayoutAndroid } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { chatWithGPT } from '../api/openai'; // Import GPT function
+import { chatWithGemini } from '../api/gemini'; // Import Gemini function
+import ChatHeader from '../components/ChatHeader';
+import { saveConversation, loadConversations, deleteAllConversations } from '../utils/conversationStorage'; // Helper functions
 import { FontAwesome, FontAwesome6 } from '@expo/vector-icons';
-import { chatWithGPT } from '../api/openai'; // Adjust the import based on your structure
-import { chatWithGemini } from '../api/gemini'; // Import the Gemini chat function
 
-const ChatScreen = ({ route, navigation }) => {
+const ChatScreen = ({ route }) => {
   const { BotName, BotLogo } = route.params;
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState('');
+  const [conversations, setConversations] = useState([]);
+  const drawerRef = useRef(null);
   const flatListRef = useRef(null);
+
+  const loadConversationHistory = async () => {
+    const history = await loadConversations(BotName);
+    setConversations(history);
+    if (history.length > 0) {
+      setMessages(history[history.length - 1].conversation);
+    }
+  };
 
   const sendMessage = async () => {
     if (input.trim()) {
@@ -17,24 +29,47 @@ const ChatScreen = ({ route, navigation }) => {
       setMessages(prevMessages => [...prevMessages, userMessage]);
       setInput('');
 
-      // Check which bot to use
       let botResponse;
       if (BotName === "ChatGPT") {
         botResponse = await chatWithGPT([...messages, userMessage]);
       } else if (BotName === "Gemini") {
-        botResponse = await chatWithGemini(input); // Use input directly for Gemini
+        botResponse = await chatWithGemini(input);
+        console.log("testing RESPONSE :::>>", botResponse);
       }
 
-      const assistantMessage = { role: 'bot', content: botResponse };
+      const assistantMessage = {
+        role: 'bot',
+        type: botResponse.type,
+        content: botResponse
+      };
       setMessages(prevMessages => [...prevMessages, assistantMessage]);
     }
   };
 
-  const renderItem = ({ item }) => (
-    <View style={[styles.messageBubble, item.role === 'user' ? styles.userBubble : styles.botBubble]}>
-      <Text style={styles.messageText}>{item.content}</Text>
-    </View>
-  );
+  const startNewChat = () => {
+    console.log("lets start a new chat");
+    if (messages.length > 0){
+    saveConversation(messages[1].content, messages);}
+    setMessages([]);
+  };
+
+  const renderItem = ({ item }) => {
+    console.log("CONTENT :::>>", item.content);
+    return (
+      <View style={[styles.messageBubble, item.role === 'user' ? styles.userBubble : styles.botBubble]}>
+        {item.type === 'image' ? (
+          <Image source={{ uri: item.content }} style={styles.botImage} />
+        ) : (
+          <Text style={styles.messageText}>{item.content}</Text>
+        )}
+      </View>
+    );
+  };
+
+  const loadConversation = (conversation) => {
+    setMessages(conversation);
+    drawerRef.current.closeDrawer();
+  };
 
   useEffect(() => {
     if (flatListRef.current) {
@@ -42,56 +77,74 @@ const ChatScreen = ({ route, navigation }) => {
     }
   }, [messages]);
 
+  useEffect(() => {
+    loadConversationHistory();
+  }, []);
+
+  useEffect(() => {
+    if (messages.length > 0 && messages[messages.length - 1].role === 'bot') {
+      saveConversation(messages[1].content, messages);
+    }
+  }, [messages]);
+
   return (
-    <SafeAreaView style={styles.container}>
-      <View style={styles.ChatHeader}>
-        <TouchableOpacity 
-          onPress={() => navigation.navigate('Dashboard')}
-          style={styles.backButton}
-        >
-          <FontAwesome name="chevron-left" size={18} color="black" />
-        </TouchableOpacity>
-        <View style={{ flexDirection: "row", alignItems: "center" }}>
-          <Image style={styles.botLogo} source={BotLogo} />
-          <Text style={styles.ChatHeaderText}>{BotName}</Text>
+    <DrawerLayoutAndroid
+      ref={drawerRef}
+      drawerWidth={300}
+      drawerPosition="right"
+      renderNavigationView={() => (
+        <SafeAreaView style={styles.drawerContainer}>
+          <View style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "center" }}>
+            <Text style={styles.drawerHeader}>Conversation History</Text>
+            <TouchableOpacity
+              onPress={deleteAllConversations}
+              style={styles.backButton}
+            >
+              <FontAwesome name="trash" size={18} color="black" />
+            </TouchableOpacity>
+          </View>
+          <FlatList
+            data={conversations}
+            renderItem={({ item }) => (
+              <TouchableOpacity onPress={() => loadConversation(item.conversation)}>
+                <Text style={styles.conversationItem}>{item.key}</Text>
+              </TouchableOpacity>
+            )}
+            keyExtractor={(item) => item.key}
+          />
+        </SafeAreaView>
+      )}
+    >
+      <SafeAreaView style={styles.container}>
+        <ChatHeader BotName={BotName} BotLogo={BotLogo} startNewChat={startNewChat} onHistoryPress={() => drawerRef.current.openDrawer()} />
+        <View style={styles.chatContainer}>
+          <Image
+            style={styles.backgroundImage}
+            source={require("../../assets/doodleBackground.jpg")}
+          />
+          <FlatList
+            ref={flatListRef}
+            data={messages}
+            renderItem={renderItem}
+            keyExtractor={(item, index) => index.toString()}
+            contentContainerStyle={styles.listContainer}
+          />
         </View>
-        <TouchableOpacity 
-          onPress={() => navigation.navigate('History')}
-          style={styles.backButton}
-        >
-          <FontAwesome6 name="clock-rotate-left" size={19} color="black" />
-        </TouchableOpacity>
-      </View>
-
-      <View style={styles.chatContainer}>
-        <Image 
-          style={styles.backgroundImage} 
-          source={require("../../assets/doodleBackground.jpg")} 
-        />
-        <FlatList
-          ref={flatListRef}
-          data={messages}
-          renderItem={renderItem}
-          keyExtractor={(item, index) => index.toString()} // Use index as key
-          contentContainerStyle={styles.listContainer}
-        />
-      </View>
-
-      <View style={styles.inputContainer}>
-        <TextInput
-          style={styles.input}
-          value={input}
-          onChangeText={setInput}
-          placeholder="Type a message"
-        />
-        <TouchableOpacity style={styles.sendButton} onPress={sendMessage}>
-          <Text style={styles.sendButtonText}>Send</Text>
-        </TouchableOpacity>
-      </View>
-    </SafeAreaView>
+        <View style={styles.inputContainer}>
+          <TextInput
+            style={styles.input}
+            value={input}
+            onChangeText={setInput}
+            placeholder="Type a message"
+          />
+          <TouchableOpacity style={styles.sendButton} onPress={sendMessage}>
+            <Text style={styles.sendButtonText}>Send</Text>
+          </TouchableOpacity>
+        </View>
+      </SafeAreaView>
+    </DrawerLayoutAndroid>
   );
 };
-
 
 const styles = StyleSheet.create({
   container: {
@@ -177,6 +230,30 @@ const styles = StyleSheet.create({
   },
   backButton: {
     padding: 8,
+  },
+  botImage: {
+    width: 200,
+    height: 200,
+    borderRadius: 8,
+    margin: 5,
+  },
+
+  drawerContainer: {
+    flex: 1,
+    backgroundColor: '#fff',
+    padding: 10,
+  },
+  drawerHeader: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    marginBottom: 10,
+  },
+  conversationItem: {
+    paddingVertical: 10,
+    fontSize: 16,
+    color: '#000',
+    borderBottomWidth: 1,
+    borderBottomColor: '#ddd',
   },
 });
 

@@ -14,6 +14,9 @@ export const chatWithGemini = async (inputMessage) => {
     const result = await model.generateContent(inputMessage);
     const response = await result.response;
     const text = await response.text(); // Make sure this matches the expected structure
+    console.log('Received response from Gemini:', text);
+    console.log('Response type:', typeof text);
+    console.log('Response:' , response);
 
     return text; // Return the generated text
   } catch (error) {
