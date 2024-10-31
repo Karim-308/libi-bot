@@ -4,49 +4,32 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import Logo from './Logo.js';
 import { LinearGradient } from 'expo-linear-gradient';
+import { Alert } from 'react-native';
 
 function FeaturesView({ navigation }) { 
   return (<>
-  <TouchableOpacity 
-      onPress={() => navigation.navigate('Chat', {
-        BotName: "ChatGPT",
-        BotLogo: require("../../assets/chatgpt-icon.png")  // Require the image here
-      })}
-      activeOpacity={0.7}
-    >
-    <View style={[styles.FeatureCard, {backgroundColor:"#22624b"}]}>
-                <View style={styles.textContainer}>
-                    <Text style={styles.title}>Chat With ChatGPT</Text>
-                    <Text style={styles.description}>
-                        AI language model that assists with tasks like answering questions, coding help, and providing explanations.
-                    </Text>
-                </View>
-                <View style={styles.FeatureLogo}>
-                    <Image source={require("../../assets/chatgpt-icon.png")} style={styles.logo} />
-                </View>
-            </View>
-            </TouchableOpacity>
+  {/* */}
             
             <TouchableOpacity 
         onPress={() => navigation.navigate('Chat' , {
-            BotName:"Gemini-Vision", 
-            BotLogo:require("../../assets/dalle.png")
+            BotName:"Libi", 
+            BotLogo:require("../../assets/Libi.png")
         })}
         activeOpacity={0.7}
       >
                 <LinearGradient 
-                    colors={['#0000FF', '#FF1493', '#8A2BE2']} // Blue to Pink to Violet
+                    colors={['#000', '#000', '#000']} // Blue to Pink to Violet
                     style={styles.FeatureCard}
-                    start={{ x: 0, y: 0 }} end={{ x: 1, y: 4 }}
+                    start={{ x: 0, y: 0 }} end={{ x: 2, y: 2 }}
                  >
                 <View style={styles.textContainer}>
-                    <Text style={styles.title}>Get Createive with Dall-E</Text>
-                    <Text style={styles.description}>
-                        Transform text descriptions into vivid, unique images, bringing creative ideas to life with AI-generated visuals.
+                    <Text style={[styles.title , {color:"#f4cc00"} ]}>Get Creative with Libi</Text>
+                    <Text style={[styles.description,  {color:"white"} ]}>
+                    Libi is your friendly and imaginative chatbot companion, always ready to help you brainstorm new ideas and spark your creativity
                     </Text>
                 </View>
                 <View style={[ styles.FeatureLogo]}>
-                    <Image source={require("../../assets/openai.png")} style={styles.logo} />
+                    <Image source={require("../../assets/Libi.png")} style={styles.logo} />
                 </View>
                 </LinearGradient>
                 </TouchableOpacity>
@@ -70,6 +53,28 @@ function FeaturesView({ navigation }) {
                 </View>
             </View>
             </TouchableOpacity>
+
+            <Text>________   To be added soon  ________</Text>
+            <TouchableOpacity
+  onPress={() => Alert.alert(
+    "Feature coming soon",
+    "Chatting with ChatGPT isn't available right now",
+    [{ text: "OK" }]
+  )}
+  activeOpacity={0.7}
+>
+    <View style={[styles.FeatureCard, {backgroundColor:"#22624b"}]}>
+                <View style={styles.textContainer}>
+                    <Text style={styles.title}>Chat With ChatGPT</Text>
+                    <Text style={styles.description}>
+                        AI language model that assists with tasks like answering questions, coding help, and providing explanations.
+                    </Text>
+                </View>
+                <View style={styles.FeatureLogo}>
+                    <Image source={require("../../assets/chatgpt-icon.png")} style={styles.logo} />
+                </View>
+            </View>
+            </TouchableOpacity> 
             </>
   );
 }
@@ -109,6 +114,9 @@ const styles = StyleSheet.create({
         height: wp(17), 
         resizeMode: 'contain',
     },
+    LibiText: {
+        color: '#f4cc00',
+    }
 });
 
 export default FeaturesView;

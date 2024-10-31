@@ -11,7 +11,8 @@ export const chatWithGemini = async (inputMessage) => {
     console.log('Sending request to Gemini API with input:', inputMessage);
 
     const model = genAI.getGenerativeModel({ model: "gemini-pro" });
-    const result = await model.generateContent(inputMessage);
+    const chat = model.startChat();
+    const result = await chat.sendMessage(inputMessage);
     const response = await result.response;
     const text = await response.text(); // Make sure this matches the expected structure
     console.log('Received response from Gemini:', text);
@@ -26,7 +27,7 @@ export const chatWithGemini = async (inputMessage) => {
 };
 
 
-export const generateImagesWithGemini = async (inputMessage) => {
+export const chatWithLibi = async (inputMessage) => {
   try {
     // Logging the input message for debugging
     console.log('Sending request to Gemini API with input:', inputMessage);
@@ -45,7 +46,7 @@ export const generateImagesWithGemini = async (inputMessage) => {
       ],
     });
 
-    const result = await model.generateContent(inputMessage);
+    const result = await chat.sendMessage(inputMessage);
     const response = await result.response;
     const text = await response.text(); // Make sure this matches the expected structure
     console.log('Received response from Gemini:', text);

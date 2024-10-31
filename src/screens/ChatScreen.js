@@ -1,11 +1,12 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { View, Text, TextInput, TouchableOpacity, FlatList, StyleSheet, Image, DrawerLayoutAndroid } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, FlatList, StyleSheet, Image, DrawerLayoutAndroid,Button } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { chatWithGPT } from '../api/openai'; // Import GPT function
-import { chatWithGemini ,generateImagesWithGemini} from '../api/gemini'; // Import Gemini function
+import { chatWithGemini ,chatWithLibi} from '../api/gemini'; // Import Gemini function
 import ChatHeader from '../components/ChatHeader';
 import { saveConversation, loadConversations, deleteAllConversations } from '../utils/conversationStorage'; // Helper functions
 import { FontAwesome, FontAwesome6 } from '@expo/vector-icons';
+import * as Speech from 'expo-speech';
 
 const ChatScreen = ({ route }) => {
   const { BotName, BotLogo } = route.params;
@@ -38,8 +39,8 @@ const ChatScreen = ({ route }) => {
         botResponse = await chatWithGemini(input);
         console.log("testing RESPONSE :::>>", botResponse);
       }
-      else if (BotName === "Gemini-Vision") {
-        botResponse = await generateImagesWithGemini(input);
+      else if (BotName === "Libi") {
+        botResponse = await chatWithLibi(input);
         console.log("testing VISION RESPONSE :::>>", botResponse);
       }
 
@@ -80,6 +81,11 @@ const ChatScreen = ({ route }) => {
   const handleDeleteAllConversations = async () => {
     await deleteAllConversations(BotName);
     setConversations([]); // Clear the state to remove items from the FlatList
+  };
+
+  const speak = (context) => {
+    const thingToSay = 'Hi i am a Libi ,the bot, I am the friendlist chatbot ever';
+    Speech.speak(context);
   };
 
   useEffect(() => {
@@ -266,7 +272,12 @@ const styles = StyleSheet.create({
     color: '#000',
     borderBottomWidth: 1,
     borderBottomColor: '#ddd',
+  },SpeakerButton: {
+    position: 'absolute',
+    right: 22,
+    bottom: 85,
   },
+  
 });
 
 export default ChatScreen;
