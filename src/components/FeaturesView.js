@@ -53,27 +53,26 @@ function FeaturesView({ navigation }) {
                 </View>
             </View>
             </TouchableOpacity>
-
-            <Text>________   To be added soon  ________</Text>
             <TouchableOpacity
-  onPress={() => Alert.alert(
-    "Feature coming soon",
-    "Chatting with ChatGPT isn't available right now",
-    [{ text: "OK" }]
-  )}
+  onPress={() => navigation.navigate('HuggingFace')}
   activeOpacity={0.7}
 >
-    <View style={[styles.FeatureCard, {backgroundColor:"#22624b"}]}>
+<LinearGradient 
+                    colo colors={['#0000FF', '#FF1493', '#8A2BE2']}// Blue to Pink to Violet
+                    style={styles.FeatureCard}
+                    start={{ x: 0, y: 0 }} end={{ x: 2, y: 2 }}
+                 >
                 <View style={styles.textContainer}>
-                    <Text style={styles.title}>Chat With ChatGPT</Text>
-                    <Text style={styles.description}>
-                        AI language model that assists with tasks like answering questions, coding help, and providing explanations.
-                    </Text>
+                    <Text style={[styles.title , {color:"white"}]}>Imagine with Stable Diffusion</Text>
+                    <Text style={[styles.description ,{color:"white"}]}>
+                    Unlock your creativity with our innovative image generation powered by simple diffusion!                   </Text>
                 </View>
+                <View style={{backgroundColor:"white" , padding:6 , borderRadius:5}}>
                 <View style={styles.FeatureLogo}>
-                    <Image source={require("../../assets/chatgpt-icon.png")} style={styles.logo} />
+                    <Image source={require("../../assets/stabilityAi.png")} style={styles.logo} />
                 </View>
-            </View>
+                </View>
+            </LinearGradient>
             </TouchableOpacity> 
             </>
   );

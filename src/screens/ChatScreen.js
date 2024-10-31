@@ -42,6 +42,11 @@ const ChatScreen = ({ route }) => {
       else if (BotName === "Libi") {
         botResponse = await chatWithLibi(input);
         console.log("testing VISION RESPONSE :::>>", botResponse);
+      }else if (BotName === "Stable-Diffusion") {
+         const result = await generateImage(input);
+        botResponse = result.imageUri 
+        ? { content: result.imageUri, type: "image" }
+        : { content: result.error, type: "text" };
       }
 
       const assistantMessage = {
