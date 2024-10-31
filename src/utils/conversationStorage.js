@@ -1,8 +1,8 @@
 // utils/conversationStorage.js
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const STORAGE_KEY = 'conversation_history';
 
+{/*
 export const saveConversation = async (key, conversation) => {
   try {
     const storedConversations = await AsyncStorage.getItem(STORAGE_KEY);
@@ -21,9 +21,33 @@ export const saveConversation = async (key, conversation) => {
   } catch (error) {
     console.error("Error saving conversation:", error);
   }
+};*/}
+
+export const saveConversation = async (botName, key, conversation) => {
+  const STORAGE_KEY = `conversation_history_${botName}`;
+  try {
+    const storedConversations = await AsyncStorage.getItem(STORAGE_KEY);
+    const conversations = storedConversations ? JSON.parse(storedConversations) : [];
+
+    // Check if the conversation already exists
+    const existingConversationIndex = conversations.findIndex(conv => conv.key === key);
+    if (existingConversationIndex !== -1) {
+      // Update the existing conversation
+      conversations[existingConversationIndex].conversation = conversation;
+    } else {
+      // Add a new conversation
+      const newConversation = { key, conversation };
+      conversations.push(newConversation);
+    }
+
+    await AsyncStorage.setItem(STORAGE_KEY, JSON.stringify(conversations));
+  } catch (error) {
+    console.error("Error saving conversation:", error);
+  }
 };
 
-export const loadConversations = async () => {
+export const loadConversations = async (botName) => {
+  const STORAGE_KEY = `conversation_history_${botName}`;
   try {
     const storedConversations = await AsyncStorage.getItem(STORAGE_KEY);
     return storedConversations ? JSON.parse(storedConversations) : [];
@@ -33,7 +57,8 @@ export const loadConversations = async () => {
   }
 };
 
-export const deleteAllConversations = async () => {
+export const deleteAllConversations = async (botName) => {
+  const STORAGE_KEY = `conversation_history_${botName}`;
   try {
     await AsyncStorage.removeItem(STORAGE_KEY);
   } catch (error) {

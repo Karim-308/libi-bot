@@ -29,7 +29,7 @@ function FeaturesView({ navigation }) {
             
             <TouchableOpacity 
         onPress={() => navigation.navigate('Chat' , {
-            BotName:"Dall-E", 
+            BotName:"Gemini-Vision", 
             BotLogo:require("../../assets/dalle.png")
         })}
         activeOpacity={0.7}

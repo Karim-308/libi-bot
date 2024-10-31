@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import { View, Text, TextInput, TouchableOpacity, FlatList, StyleSheet, Image, DrawerLayoutAndroid } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { chatWithGPT } from '../api/openai'; // Import GPT function
-import { chatWithGemini } from '../api/gemini'; // Import Gemini function
+import { chatWithGemini ,generateImagesWithGemini} from '../api/gemini'; // Import Gemini function
 import ChatHeader from '../components/ChatHeader';
 import { saveConversation, loadConversations, deleteAllConversations } from '../utils/conversationStorage'; // Helper functions
 import { FontAwesome, FontAwesome6 } from '@expo/vector-icons';
@@ -16,6 +16,7 @@ const ChatScreen = ({ route }) => {
   const flatListRef = useRef(null);
 
   const loadConversationHistory = async () => {
+    console.log("Now speaking with:", BotName);
     const history = await loadConversations(BotName);
     console.log("Loaded conversation history:", history);
     setConversations(history);
@@ -37,6 +38,10 @@ const ChatScreen = ({ route }) => {
         botResponse = await chatWithGemini(input);
         console.log("testing RESPONSE :::>>", botResponse);
       }
+      else if (BotName === "Gemini-Vision") {
+        botResponse = await generateImagesWithGemini(input);
+        console.log("testing VISION RESPONSE :::>>", botResponse);
+      }
 
       const assistantMessage = {
         role: 'bot',
@@ -50,7 +55,7 @@ const ChatScreen = ({ route }) => {
   const startNewChat = () => {
     console.log("lets start a new chat");
     if (messages.length > 0){
-    saveConversation(messages[0].content, messages);}
+    saveConversation(BotName,messages[0].content, messages);}
     setMessages([]);
   };
 
@@ -73,7 +78,7 @@ const ChatScreen = ({ route }) => {
   };
 
   const handleDeleteAllConversations = async () => {
-    await deleteAllConversations();
+    await deleteAllConversations(BotName);
     setConversations([]); // Clear the state to remove items from the FlatList
   };
 
@@ -90,7 +95,7 @@ const ChatScreen = ({ route }) => {
   useEffect(() => {
     if (messages.length > 0 && messages[messages.length - 1].role === 'bot') {
       console.log("Saving conversation:", messages);
-      saveConversation(messages[0].content, messages);
+      saveConversation(BotName,messages[0].content, messages);
     }
   }, [messages]);
 
