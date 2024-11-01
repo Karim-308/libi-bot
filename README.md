@@ -63,6 +63,31 @@ Start the development server with Expo CLI:
 - Generated images will display in the app interface.
 
 ## Project Structure
+```
+libi-bot/
+├── src/
+│   ├── api/
+│   │   ├── openai.js
+│   │   ├── gemini.js
+│   │   └── huggingFace.js
+│   ├── components/
+│   │   └── ChatHeader.js
+│   ├── navigation/
+│   │   └── AppNavigator.js
+│   ├── screens/
+│   │   ├── DashboardScreen.js
+│   │   ├── ChatScreen.js
+│   │   └── HuggingFace.js
+│   └── utils/
+│       └── conversationStorage.js
+├── assets/
+│   ├── fonts/
+│   └── images/
+├── .env
+├── App.js
+└── package.json
+```
+
 
 ## Contributing
 Contributions are welcome! Please follow these steps:
