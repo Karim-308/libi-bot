@@ -24,7 +24,7 @@ Welcome to libi-bot, an interactive AI-powered chatbot application built with Re
 - 📱 **Responsive Design:** Optimized for various screen sizes and orientations.
 
 ## Demo
-![libi-bot Demo](https://img.youtube.com/vi/VIDEO_ID/0.jpg)  
+![libi-bot Demo](https://www.youtube.com/watch?v=rFPQCtRWjok)  
 Click on the image to watch the demo video.
 
 ## Prerequisites
