@@ -33,13 +33,13 @@ Click on the image to watch the demo video.
 - Git (for cloning the repository)
 
 ## Installation
-1. **Clone the Repository**
+1. **Clone this Repository**
 2. **Install Dependencies**
 
 ## Configuration
 Create a `.env` file in the root directory of the project to store your API keys:
 
-> Note: Replace `your_openai_api_key_here` and `your_hugging_face_api_key_here` with your actual API keys.
+> Note: Replace `EXPO_PUBLIC_GEIMINI_API_KEY` and `EXPO_PUBLIC_HUGGING_FACE_API_KEY` with your actual API keys.
 
 ## Running the App
 Start the development server with Expo CLI:
