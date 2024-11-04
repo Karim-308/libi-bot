@@ -1,7 +1,7 @@
 # libi-bot 🤖
 ## ALX Graduation Project
 
-Welcome to libi-bot, an interactive AI-powered chatbot application built with React Native. Engage in dynamic conversations with various bots, including OpenAI's ChatGPT and generate images using Hugging Face's Stable Diffusion model.
+Welcome to libi-bot, an interactive AI-powered chatbot application built with React Native. Engage in dynamic conversations with various bots, generate images using Hugging Face's Stable Diffusion model.
 
 ## Table of Contents
 - [Features](#features)
@@ -50,7 +50,7 @@ Start the development server with Expo CLI:
 ## Usage
 ### Dashboard:
 - Select a bot to start chatting.
-- Available bots include ChatGPT, Gemini, Libi, and Stable Diffusion.
+- Available bots include till now Gemini, Libi, and Stable Diffusion.
 
 ### Chat Screen:
 - Engage in conversation by typing messages.
@@ -102,6 +102,5 @@ This project is licensed under the MIT License.
 
 ## Acknowledgements
 - **ALX Africa:** For providing the training and mentorship.
-- **OpenAI:** For the ChatGPT API.
 - **Hugging Face:** For the Stable Diffusion model.
 - **Expo:** For the development tools and platform.
