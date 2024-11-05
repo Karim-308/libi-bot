@@ -93,6 +93,12 @@ libi-bot/
 ├── assets/
 │   ├── fonts/
 │   └── images/
+├── __tests__/
+│   ├── Accessibilty.test.js
+│   |── ChatScreen.test.js
+|   |── ChatScreenSnapshot.test.js
+|   |── ConversationStorage.test.js
+|   |── HuggingFaceImageGenerator.test.js
 ├── .env
 ├── App.js
 └── package.json
