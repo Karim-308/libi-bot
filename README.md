@@ -34,7 +34,15 @@ Click on the image to watch the demo video.
 
 ## Installation
 1. **Clone this Repository**
+```
+git clone https://github.com/yourusername/libi-bot.git
+cd libi-bot
+```
 2. **Install Dependencies**
+```
+npm intsall
+```
+
 
 ## Configuration
 Create a `.env` file in the root directory of the project to store your API keys:
@@ -43,7 +51,9 @@ Create a `.env` file in the root directory of the project to store your API keys
 
 ## Running the App
 Start the development server with Expo CLI:
-
+```
+expo start
+```
 - Use the Expo app on your mobile device to scan the QR code.
 - Alternatively, run the app on an emulator or simulator.
 
